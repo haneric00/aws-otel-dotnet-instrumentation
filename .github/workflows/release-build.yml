@@ -119,6 +119,13 @@ jobs:
   # We want to build and release nuget first so that if it fails, it fails before publishing to private ECR
     # since deleting from Private ECR is not possible.
   build-release-nuget:
+    # FORK REHEARSAL ONLY (do not merge): skip every publishing job so nothing is released.
+    # The release-build jobs form a strictly linear needs-chain starting here, so `if: false`
+    # on this job cascade-skips build-release-nuget -> release-image -> release-multi-platform-image
+    # -> setup-regions-matrix -> publish-layer-prod -> generate-lambda-release-note -> publish-github
+    # -> sign-public-ecr-image. Only download-artifacts (cross-run download + head-sha check, no
+    # external publish) runs -- which is exactly the P1A/P1B behavior under test.
+    if: false
     needs: download-artifacts
     environment: Release
     runs-on: windows-latest
