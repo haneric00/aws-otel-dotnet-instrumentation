@@ -114,6 +114,7 @@ jobs:
           path: bin/aws-distro-opentelemetry-dotnet-instrumentation-linux-musl-x64.zip
   
   build-arm64:
+    if: false # FORK REHEARSAL: arm64 uses CodeBuild self-hosted runners that don't exist on the fork
     runs-on: codebuild-adot-dotnet-runner-${{ github.run_id }}-${{ github.run_attempt }}
     environment: ${{ inputs.environment }}
     steps:
@@ -142,6 +143,7 @@ jobs:
           path: bin/aws-distro-opentelemetry-dotnet-instrumentation-linux-glibc-arm64.zip
 
   build-arm64-musl:
+    if: false # FORK REHEARSAL: arm64 uses CodeBuild self-hosted runners that don't exist on the fork
     runs-on: codebuild-adot-dotnet-runner-${{ github.run_id }}-${{ github.run_attempt }}
     environment: ${{ inputs.environment }}
     steps:
@@ -165,6 +167,7 @@ jobs:
           path: bin/aws-distro-opentelemetry-dotnet-instrumentation-linux-musl-arm64.zip
 
   build-and-scan-images:
+    if: false # FORK REHEARSAL: depends on arm64 (disabled) and scans in ECR (no fork access)
     needs: [build, build-arm64, build-x64-musl, build-arm64-musl]
     runs-on: ${{ matrix.os }}
     environment: ${{ inputs.environment }}
@@ -190,6 +193,7 @@ jobs:
           image-name: adot-autoinstrumentation-dotnet:main-${{ github.run_number }}-windows2022
 
   application-signals-e2e-test:
+    if: false # FORK REHEARSAL: needs real AWS infra unavailable on the fork
     name: "Application Signals E2E Test"
     needs: [ build ]
     uses: ./.github/workflows/application-signals-e2e-test.yml
