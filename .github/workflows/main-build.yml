@@ -114,8 +114,8 @@ jobs:
           path: bin/aws-distro-opentelemetry-dotnet-instrumentation-linux-musl-x64.zip
   
   build-arm64:
-    if: false # FORK REHEARSAL: arm64 uses CodeBuild self-hosted runners that don't exist on the fork
-    runs-on: codebuild-adot-dotnet-runner-${{ github.run_id }}-${{ github.run_attempt }}
+    # FORK REHEARSAL: swap CodeBuild self-hosted runner (absent on fork) for a GitHub-hosted arm64 runner
+    runs-on: ubuntu-24.04-arm
     environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 #v5.0.0
@@ -143,8 +143,8 @@ jobs:
           path: bin/aws-distro-opentelemetry-dotnet-instrumentation-linux-glibc-arm64.zip
 
   build-arm64-musl:
-    if: false # FORK REHEARSAL: arm64 uses CodeBuild self-hosted runners that don't exist on the fork
-    runs-on: codebuild-adot-dotnet-runner-${{ github.run_id }}-${{ github.run_attempt }}
+    # FORK REHEARSAL: swap CodeBuild self-hosted runner (absent on fork) for a GitHub-hosted arm64 runner
+    runs-on: ubuntu-24.04-arm
     environment: ${{ inputs.environment }}
     steps:
       - name: Checkout
